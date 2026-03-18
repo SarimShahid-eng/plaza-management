@@ -1,0 +1,21 @@
+add plaza there will be only one admin for each plaza
+plaza have management fees monthly wise
+plaza have memebers which represents flats so add memebers only each member must pay a certain fee monthly wise and
+each member leisure will run accordingly
+each member can login and see their details of whats the fees is it paid or unpaid
+all thee fees he have paid so far on each month all records
+maintenance admin will assign a specific amount it will be diveded by memeberts
+maintenance logs when how maintenance hapened solved images
+
+plaza title desc
+user name email password role['superadmin','chairman','assistant','member'] plaza_id nullable because superadmin wont have it
+each plaza have a admin
+maintenance: title, amount,type[Plumbing,electrical,cleaning,generator/Fuel.General Repair],description nullable,ticket_id(nullable) represents if done on complain or general one
+date (will be showed to each memeber divided by total accordingly on that date to track how many members
+exist at that timepriod)
+
+Maintenance attachments
+maintenance_logs: maintenance_id files
+
+
+
