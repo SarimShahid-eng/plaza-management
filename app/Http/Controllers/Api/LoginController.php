@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
 
-    public function authenticate(Request $request): RedirectResponse
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -33,7 +33,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request)
     {
         Auth::logout();
 
@@ -43,5 +43,5 @@ class LoginController extends Controller
 
     //     return redirect()->route('login');
 
-    // }
+    }
 }
