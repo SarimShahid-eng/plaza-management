@@ -82,7 +82,7 @@
                     </li>
                     <!-- Menu Item Material -->
                     <li>
-                        <a href=""
+                        <a href="{{ route('users.index') }}"
                             class="menu-item group
                             {{ request()->routeIs('users.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
 

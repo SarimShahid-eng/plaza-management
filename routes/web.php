@@ -14,6 +14,13 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(UserController::class)->prefix('users')->group(function (){
         Route::get('/' , 'index')->name('users.index');
+        Route::get('/create' , 'create')->name('users.create');
+        Route::post('/store' , 'store')->name('users.store');
+        Route::get('/edit/{user}' , 'edit')->name('users.edit');
+        Route::post('/update/{user}' , 'update')->name('users.update');
+        Route::get('/show/{user}' , 'show')->name('users.show');
+        Route::post('/destroy/{user}' , 'destroy')->name('users.destroy');
+
     });
 });
 Route::controller(LoginController::class)->group(function () {
