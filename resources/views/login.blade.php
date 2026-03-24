@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sign In| Brick Production app</title>
+    <title>Sign In| Plaza Management App</title>
     @vite(['resources/js/app.js', 'resources/css/style.css'])
 </head>
 
@@ -180,11 +180,11 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     <include src="./partials/common-grid-shape.html"></include>
                     <div class="flex flex-col items-center max-w-xs">
                         <a href="index.html" class="block mb-4 text-white text-xl">
-                            Bricks Management
+                           Plaza Management
                             {{-- <img src="./images/logo/auth-logo.svg" alt="Logo" /> --}}
                         </a>
                         <p class="text-center text-gray-400 dark:text-white/60">
-                            Manage Your Bricks Production Business with ease
+                            Manage Your plaza Business with ease
                         </p>
                     </div>
                 </div>

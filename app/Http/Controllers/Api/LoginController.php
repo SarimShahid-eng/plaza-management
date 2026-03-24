@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-
-    public function authenticate(Request $request): RedirectResponse
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -37,11 +36,12 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-    //     $request->session()->invalidate();
+        //     $request->session()->invalidate();
 
-    //     $request->session()->regenerateToken();
+        //     $request->session()->regenerateToken();
 
-    //     return redirect()->route('login');
+        //     return redirect()->route('login');
 
-    // }
+        // }
+    }
 }

@@ -10,9 +10,8 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('admin_assets/logo/favicon-32x32.svg') }}">
     <title>
         {{ $title }}
-        {{-- eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template --}}
     </title>
-    @vite(['resources/js/app.js','resources/css/style.css'])
+    @vite(['resources/js/app.js', 'resources/css/style.css'])
 </head>
 
 
