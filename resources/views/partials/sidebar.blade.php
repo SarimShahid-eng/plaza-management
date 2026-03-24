@@ -81,10 +81,10 @@
                         </a>
                     </li>
                     <!-- Menu Item Material -->
-                    {{-- <li>
-                        <a href="{{ route('materials.index') }}"
+                    <li>
+                        <a href="{{ route('users.index') }}"
                             class="menu-item group
-                            {{ request()->routeIs('materials.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                            {{ request()->routeIs('users.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -93,10 +93,10 @@
                             </svg>
 
                             <span class="menu-item-text">
-                                Materials
+                                Users
                             </span>
                         </a>
-                    </li> --}}
+                    </li>
 
                     <!-- Menu Item Calendar -->
                     <!-- Menu Item Supplier -->
