@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('unit_assesment_payment_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('assessment_id');
             $table->foreignId('plaza_id');
             $table->foreignId('unit_id');
             $table->decimal('amount', 15, 2);
-            $table->enum('payment_type', ["App","Cash","BankTransfer","Cheque","Card"]);
+            $table->enum('payment_type', ['App', 'Cash', 'BankTransfer', 'Cheque', 'Card']);
             $table->string('payment_month', 7);
-            // $table->enum('status', ["PENDING_APPROVAL","APPROVED","REJECTED"])->default('PENDING_APPROVAL');
             $table->foreignId('recorded_by');
-            // $table->boolean('is_late')->default(false);
-            // $table->string('reference_number')->nullable();
-            // $table->foreignId('approved_by')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('unit_assesment_payment_histories');
     }
 };

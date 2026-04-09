@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plaza_settings', function (Blueprint $table) {
             $table->id();
+            $table->string('color')->unique();
             $table->foreignId('plaza_id')->unique();
             $table->decimal('maintenance_approval_threshold', 15, 2);
             $table->decimal('monthly_dues_amount', 15, 2);

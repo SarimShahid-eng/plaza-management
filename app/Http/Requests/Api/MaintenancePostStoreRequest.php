@@ -23,7 +23,9 @@ class MaintenancePostStoreRequest extends FormRequest
             'title' => ['required', 'string'],
             'category' => ['required', 'in:Plumbing,Electrical,Cleaning,Generator,Repair,Security,Painting,HVAC,Other'],
             'cost' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
-            'vendor_name' => ['nullable', 'string'],
+            'linked_assessment_id' => ['required', 'integer', 'exists:special_assessments,id'],
+            'attachments' => ['required', 'array'],
+            'attachments.*' => ['required', 'file'],
         ];
     }
 }

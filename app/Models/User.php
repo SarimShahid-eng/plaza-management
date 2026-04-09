@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens,HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +46,7 @@ class User extends Model
             'id' => 'integer',
             'plaza_id' => 'integer',
             'unit_id' => 'integer',
+            'password' => 'hashed',
         ];
     }
 
@@ -52,9 +54,17 @@ class User extends Model
     {
         return $this->belongsTo(Plaza::class);
     }
+    public function plazaSetting(): BelongsTo
+    {
+        return $this->belongsTo(PlazaSetting::class,'plaza_id','plaza_id');
+    }
 
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
+    }
+    public function occupiedUnits(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class)->where('status','Occupied');
     }
 }

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->decimal('shortfall', 15, 2);
             $table->integer('occupied_units');
             $table->decimal('per_unit_amount', 15, 2);
-            $table->enum('status', ["PENDING","APPROVED","REJECTED","APPROVED_AND_IMPLEMENTED"]);
+            // $table->enum('status', ["PENDING","APPROVED","REJECTED","APPROVED_AND_IMPLEMENTED"]);
             $table->foreignId('created_by');
-            $table->foreignId('approved_by')->nullable();
+            // $table->foreignId('approved_by')->nullable();
             $table->timestamps();
         });
     }

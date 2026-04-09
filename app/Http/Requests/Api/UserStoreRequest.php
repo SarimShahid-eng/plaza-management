@@ -20,13 +20,24 @@ class UserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'password'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'password', 'confirmed'],
             'full_name' => ['required', 'string'],
             'phone_number' => ['nullable', 'string'],
-            'role' => ['required', 'in:admin,chairman,assistant,member'],
-            'plaza_id' => ['nullable', 'integer', 'exists:plazas,id'],
-            'unit_id' => ['nullable', 'integer', 'exists:units,id'],
+
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'full_name.required' => 'Please enter the user\'s full name.',
+            'email.required' => 'An email address is required.',
+            'email.email' => 'Please enter a valid email address.',
+            // 'email.unique' => 'This email is already registered.',
+            'password.required' => 'A password is required.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'password.min' => 'Password must be at least 8 characters.',
         ];
     }
 }

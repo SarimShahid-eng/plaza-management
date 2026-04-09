@@ -20,6 +20,7 @@ class PlazaSetting extends Model
         'maintenance_approval_threshold',
         'monthly_dues_amount',
         'late_fee_percentage',
+        'color'
     ];
 
     /**

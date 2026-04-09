@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->foreignId('plaza_id');
+            //denotes who owns it currently
+            // $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('unit_number');
             $table->integer('floor')->nullable();
-            $table->enum('status', ["Paid","Pending","Vacant"])->default('Vacant');
-            $table->enum('unit_type', ["1bhk","2bhk","3bhk","studio","penthouse","other"]);
-            $table->string('resident_name')->nullable();
-            $table->string('resident_phone')->nullable();
+            $table->enum('status', ['Occupied', 'Vacant'])->default('Vacant');
             $table->decimal('due', 15, 2)->default(0);
             $table->decimal('monthly_dues_amount', 15, 2);
             $table->timestamp('last_payment_date')->nullable();

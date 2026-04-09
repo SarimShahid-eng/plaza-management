@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SpecialAssessment extends Model
 {
@@ -23,9 +24,9 @@ class SpecialAssessment extends Model
         'shortfall',
         'occupied_units',
         'per_unit_amount',
-        'status',
         'created_by',
-        'approved_by',
+        // 'status',
+        // 'approved_by',
     ];
 
     /**
@@ -59,5 +60,9 @@ class SpecialAssessment extends Model
     public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function unitAssessmentPayment(): HasOne
+    {
+        return $this->hasOne(UnitAssesmentPayment::class,'assessment_id');
     }
 }

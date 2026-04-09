@@ -22,26 +22,31 @@ class LoginController extends Controller
         }
 
         $user = Auth::user();
+        if ($user->role !== 'member' || $user->role !== 'chairman') {
+            return response()->json([
+                'message' => 'You are not eligible to login ',
+            ], 422);
+        }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'bearer_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'full_name' => $user->full_name,
+                'email' => $user->email,
+                'role'=>$user->role
+            ],
+            'plaza' => $user->plaza->name,
+            'unit_number' => $user->unit->unit_number ?? null,
+            'Themecolor' => $user->plazaSetting->color,
         ]);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
-        //     $request->session()->invalidate();
-
-        //     $request->session()->regenerateToken();
-
-        //     return redirect()->route('login');
-
-        // }
     }
 }

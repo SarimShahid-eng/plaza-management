@@ -24,12 +24,12 @@ class SpecialAssessmentStoreRequest extends FormRequest
             'title' => ['required', 'string'],
             'reason' => ['required', 'string'],
             'required_amount' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
-            'shortfall' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
-            'occupied_units' => ['required', 'integer'],
-            'per_unit_amount' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
-            'status' => ['required', 'in:PENDING,APPROVED,REJECTED,APPROVED_AND_IMPLEMENTED'],
+            // 'shortfall' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
+            // 'occupied_units' => ['required', 'integer'],
+            // 'per_unit_amount' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
             'created_by' => ['required', 'integer', 'exists:users,id'],
-            'approved_by' => ['nullable', 'integer', 'exists:users,id'],
+            // 'status' => ['required', 'in:PENDING,APPROVED,REJECTED,APPROVED_AND_IMPLEMENTED'],
+            // 'approved_by' => ['nullable', 'integer', 'exists:users,id'],
         ];
     }
 }

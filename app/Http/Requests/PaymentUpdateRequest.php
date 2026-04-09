@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserUpdateRequest extends FormRequest
+class PaymentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,11 +20,8 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'email' => ['nullable', 'email'],
-            'password' => ['nullable', 'min:8'],
-            'full_name' => ['nullable', 'string'],
-            'phone_number' => ['nullable', 'string'],
+            'status' => ['required', 'in:PENDING_APPROVAL,APPROVED,REJECTED'],
+            'approved_by' => ['nullable', 'integer', 'exists:users,id'],
         ];
     }
 }

@@ -54,8 +54,8 @@ class TransactionLog extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function relatedResource(): BelongsTo
-    {
-        return $this->belongsTo(RelatedResource::class);
-    }
+    // public function relatedResource(): BelongsTo
+    // {
+    //     return $this->belongsTo(RelatedResource::class);
+    // }
 }

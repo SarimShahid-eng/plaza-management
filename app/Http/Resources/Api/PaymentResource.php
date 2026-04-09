@@ -19,7 +19,6 @@ class PaymentResource extends JsonResource
             'amount' => $this->amount,
             'payment_type' => $this->payment_type,
             'payment_month' => $this->payment_month,
-            'status' => $this->status,
             'is_late' => $this->is_late,
             'reference_number' => $this->reference_number,
             'recorded_by' => $this->recorded_by,

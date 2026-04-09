@@ -20,14 +20,10 @@ class MaintenancePost extends Model
         'title',
         'category',
         'cost',
-        'status',
-        'vendor_name',
-        'vendor_phone',
+        'description',
+        // 'status',
         'created_by',
-        'approved_by',
-        'linked_ticket_id',
         'linked_assessment_id',
-        'approval_notes',
     ];
 
     /**

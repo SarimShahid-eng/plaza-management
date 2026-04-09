@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UnitUpdateRequest extends FormRequest
 {
@@ -19,17 +20,13 @@ class UnitUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
-            'plaza_id' => ['required', 'integer', 'exists:plazas,id'],
-            'unit_number' => ['required', 'string'],
+            'status' => ['sometimes', Rule::in(['Occupied', 'Vacant'])],
             'floor' => ['nullable', 'integer'],
-            'status' => ['required', 'in:Paid,Pending,Vacant'],
-            'unit_type' => ['required', 'in:1bhk,2bhk,3bhk,studio,penthouse,other'],
-            'resident_name' => ['nullable', 'string'],
-            'resident_phone' => ['nullable', 'string'],
-            'due' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
-            'monthly_dues_amount' => ['required', 'numeric', 'between:-9999999999999.99,9999999999999.99'],
-            'last_payment_date' => ['nullable'],
+            'user_id' => ['sometimes', 'nullable', 'integer', 'exists:users,id'],
+            'unit_id' => ['required', 'integer', 'exists:units,id'],
+
         ];
     }
 }

@@ -18,14 +18,14 @@ class MaintenancePostResource extends JsonResource
             'title' => $this->title,
             'category' => $this->category,
             'cost' => $this->cost,
-            'status' => $this->status,
-            'vendor_name' => $this->vendor_name,
-            'vendor_phone' => $this->vendor_phone,
-            'created_by' => $this->created_by,
-            'approved_by' => $this->approved_by,
-            'linked_ticket_id' => $this->linked_ticket_id,
+            // 'status' => $this->status,
+            // 'vendor_name' => $this->vendor_name,
+            // 'vendor_phone' => $this->vendor_phone,
+            // 'created_by' => $this->created_by,
+            // 'approved_by' => $this->approved_by,
+            // 'linked_ticket_id' => $this->linked_ticket_id,
             'linked_assessment_id' => $this->linked_assessment_id,
-            'approval_notes' => $this->approval_notes,
+            // 'approval_notes' => $this->approval_notes,
         ];
     }
 }

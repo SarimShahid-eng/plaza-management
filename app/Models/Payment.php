@@ -16,16 +16,14 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'plaza_id',
         'unit_id',
         'amount',
-        'payment_type',
-        'payment_month',
         'status',
-        'is_late',
-        'reference_number',
         'recorded_by',
-        'approved_by',
+        // 'approved_by',
+        'payment_month',
     ];
 
     /**
@@ -36,19 +34,12 @@ class Payment extends Model
     protected function casts(): array
     {
         return [
+            'plaza_id',
             'id' => 'integer',
-            'plaza_id' => 'integer',
             'unit_id' => 'integer',
             'amount' => 'decimal:2',
-            'is_late' => 'boolean',
             'recorded_by' => 'integer',
-            'approved_by' => 'integer',
         ];
-    }
-
-    public function plaza(): BelongsTo
-    {
-        return $this->belongsTo(Plaza::class);
     }
 
     public function unit(): BelongsTo

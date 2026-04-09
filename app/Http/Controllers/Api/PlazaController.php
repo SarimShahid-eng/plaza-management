@@ -15,7 +15,7 @@ class PlazaController extends Controller
 {
     public function index(Request $request): PlazaCollection
     {
-        $plazas = Plaza::paginate(10);
+        $plazas = Plaza::with('residents')->paginate(10);
 
         return new PlazaCollection($plazas);
     }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Plaza;
 use App\Models\Unit;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class UserFactory extends Factory
 {
@@ -15,7 +16,7 @@ class UserFactory extends Factory
     {
         return [
             'email' => fake()->safeEmail(),
-            'password' => fake()->password(),
+            'password' => Hash::make('password'),
             'full_name' => fake()->word(),
             'phone_number' => fake()->phoneNumber(),
             'role' => fake()->randomElement(["admin","chairman","assistant","member"]),

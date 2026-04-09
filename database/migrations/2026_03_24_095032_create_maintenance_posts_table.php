@@ -17,14 +17,9 @@ return new class extends Migration
             $table->string('title');
             $table->enum('category', ["Plumbing","Electrical","Cleaning","Generator","Repair","Security","Painting","HVAC","Other"]);
             $table->decimal('cost', 15, 2);
-            $table->enum('status', ["IMPLEMENTED","PENDING_APPROVAL","APPROVED","REJECTED"]);
-            $table->string('vendor_name')->nullable();
-            $table->string('vendor_phone')->nullable();
+            // $table->enum('status', ["IMPLEMENTED","PENDING_APPROVAL","APPROVED","REJECTED"]);
             $table->foreignId('created_by');
-            $table->foreignId('approved_by')->nullable();
-            $table->foreignId('linked_ticket_id')->nullable();
             $table->foreignId('linked_assessment_id')->nullable();
-            $table->text('approval_notes')->nullable();
             $table->timestamps();
         });
     }

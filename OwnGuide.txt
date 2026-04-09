@@ -1,0 +1,95 @@
+General Flow
+User member,chairman,admin
+Unit can make units who owned it current status with unit_history when the status is changed by whom and who owns it
+if status changed to paid clear all his amounts
+Else Unit have monthly monthly_dues_amount denotes monthly amount
+monthly-payments amount = how much remaining until 0 no negative marking
+
+Unit update status are updating when paid with certain amount will be deducted
+chairman will create due date after that amount will be considered as due remaining
+plaza_settings->monthly dues amount means how much should be charged per unit of plaza
+Unit status paid with certain amount ->monthly dues->log created(audit + transaction)
+
+how fees will work
+plaza_settings->monthly_dues_amount will be default amount per unit  if want to change per unit chairman can update Unit.monthly_dues_amount and can charge per unit
+
+Master pool
+Monthly pay,maintenance cost,special_assessment
+User paid -> master_pool_balance increases -> transaction_logs: credit
+maintenance_cost ->master pool balance decreases ->transaction_logs: debit
+Special_Assessment User Paid ->master pool balance increases ->transaction_logs: credit
+
+
+ Special Assessment
+SPECIAL ASSESSMENT is an event which occurs when something bad happens and chairman/admin is at low budget
+Means generator expense became more than current balance (23000-23200) 200 is short admin must create special assessment in which shortfall amount
+shortfall amount will be divided per unit(occupied ones) FOR EACH unit WHERE status != 'Vacant':
+ 200/4  50 per resident and each resident unit status will change from paid to pending if a unit pays each units payment
+ will be tracked by unit payment history per assessment as fully paid according to required amount chairman will approve due will change
+ to 0 and paid for user and as chairman press paid it means all amount from the unit has been paid and status change
+ for unit payment history and at last to track balance before and after we have transaction logs
+ which will generate with each payment made balance_before= master_pool_balance for instance 25000 someone made 5000
+ it will become 20000
+This creates an AUDIT TRAIL
+Shows EXACT progression of balance recovery
+
+
+[SpecialAssessment]
+    ↓ creates dues per unit
+[Residents Pay]
+    ↓
+[master_pool_balance increases]
+    ↓
+[MaintenancePost]
+    ↓
+[master_pool_balance decreases]
+
+Maintenece = spend
+Special Assessment = collection request and when user pays Maintenece pool auto increase
+
+When user is paying he will tell for which he is paying assesment or maintennace and which one
+and when chairman creating maintenace
+
+
+monthly_dues table:
+  - paid_amount: 2000 ✓ (tracks payment amount)
+
+audit_logs table:
+  - action: log_payment ✓ (tracks who did it)
+
+transaction_logs table:
+  - amount: 2000 ✓ (tracks money movement)
+
+unit.status represents current status keeping it will update timely
+unit.history will keep updating accordingly
+
+EXAMPLE SCENARIOS
+
+Special Assessment
+Master pool balance: Rs. 232,500
+Generator breaks down
+Generator replacement cost: Rs. 250,000
+Shortfall: Rs. 250,000 - Rs. 232,500 = Rs. 17,500
+Now you need to charge residents for this Rs. 17,500
+POSTED A SPECIAL ASSESSMENT
+{title: "Emergency Generator Replacement",
+  reason: "Old generator failed. Replacement needed for building operation",
+  required_amount: 250000,
+  current_balance: 232500}
+
+  System calculates:
+  shortfall: 250000 - 232500 = 17500
+  occupied_units: 18 (count of units where status != 'Vacant')
+  per_unit_amount: ceil(17500 / 18) = 972.22 ≈ 973
+
+
+Flow Database Wise
+Unit add Unit
+unit_history tracking when unit is changed to paid pending vacant of which user and by whom
+payments is tracking payment amount month wise
+transaction_logs tracking when each payment made whats the balance before and after resident pays as chairman approved each time
+unit_payment history is tracking how much is paid by each unit assesed amount(they should pay),paid amount (how much paid so far)
+remaining amount (assesed-paid) will be unpaid until 'UNPAID', 'PAID', 'PARTIAL', 'OVERDUE' status denoting real amount track
+
+when user oays
+
