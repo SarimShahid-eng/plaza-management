@@ -16,6 +16,7 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
+        'monthly_due_id',
         'user_id',
         'plaza_id',
         'unit_id',
@@ -50,6 +51,10 @@ class Payment extends Model
     public function recordedBy(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(MonthlyDue::class, 'monthly_due_id');
     }
 
     public function approvedBy(): BelongsTo

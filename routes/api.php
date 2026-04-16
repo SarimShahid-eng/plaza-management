@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\MaintenancePostController;
+use App\Http\Controllers\Api\PaymentController;
 // use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\PlazaController;
 use App\Http\Controllers\Api\SpecialAssessmentController;
@@ -62,10 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('store', 'store')->name('store');
     });
 
-    // Route::prefix('payments')->name('payment')->controller(PaymentController::class)->group(function () {
-    //     Route::get('show/{user}', 'show')->name('show');          // api/plaza/1
-    //     Route::post('update/{unit}', 'update')->name('update');      // api/plaza/1 (PUT)
-    //     Route::delete('destroy/{unit}', 'destroy')->name('destroy'); // a
-    //     Route::patch('assignMember/{user}/{unit}', 'assignMember')->name('assignMember'); // a
-    // });
+    Route::prefix('payments')->name('payment')->controller(PaymentController::class)->group(function () {
+        Route::get('/monthlyDues' , 'monthlyDues')->name('monthlyDues');          // api/plaza/1
+        Route::get('/{monthlyDue}/history' , 'payments')->name('payments');       
+    });
 });

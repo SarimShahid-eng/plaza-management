@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class MaintenancePostController extends Controller
 {
-    private PaymentService $paymentService;
+    private PaymentService $paymentService; 
 
     public function __construct(PaymentService $paymentService)
     {
