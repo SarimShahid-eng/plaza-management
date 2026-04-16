@@ -23,7 +23,8 @@ class TicketStoreRequest extends FormRequest
             'subject' => ['required', 'string'],
             'category' => ['required', 'in:Plumbing,Electrical,Cleaning,Noise,Security,Safety,Other'],
             'description' => ['required', 'string'],
-            'priority' => ['required', 'in:Low,Medium,High,Urgent'],
+            'attachments' => ['required', 'array'],
+            'attachments.*' => ['required', 'file'],
         ];
     }
 }

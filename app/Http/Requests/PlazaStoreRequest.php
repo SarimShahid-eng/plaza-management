@@ -20,6 +20,7 @@ class PlazaStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'update_id'=>['nullable','exists:plazas,id'],
             'name' => ['required', 'string'],
             'city' => ['required', 'string'],
             'country' => ['required', 'string'],

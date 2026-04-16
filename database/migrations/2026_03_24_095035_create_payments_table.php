@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('monthly_due_id');
+
             $table->foreignId('plaza_id');
             $table->foreignId('unit_id');
             $table->decimal('amount', 15, 2);

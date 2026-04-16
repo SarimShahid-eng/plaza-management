@@ -16,13 +16,13 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
+        'monthly_due_id',
         'user_id',
         'plaza_id',
         'unit_id',
         'amount',
         'status',
         'recorded_by',
-        // 'approved_by',
         'payment_month',
     ];
 

@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ticket_id');
             $table->string('file_url');
-            $table->string('file_type');
-            $table->string('file_name');
-            $table->string('file_size_bytes');
-            $table->foreignId('uploaded_by');
+            $table->foreignId('uploaded_by')->constrained('users');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MaintenancePost extends Model
 {
@@ -47,6 +48,10 @@ class MaintenancePost extends Model
     public function plaza(): BelongsTo
     {
         return $this->belongsTo(Plaza::class);
+    }
+    public function maintenanceAttachments(): HasMany
+    {
+        return $this->hasMany(MaintenanceAttachment::class);
     }
 
     public function createdBy(): BelongsTo

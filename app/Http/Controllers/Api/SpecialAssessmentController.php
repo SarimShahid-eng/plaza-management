@@ -21,7 +21,7 @@ class SpecialAssessmentController extends Controller
         $role = $loggedInUser->role;
         $specialAssessments = SpecialAssessment::where('plaza_id', $loggedInUser->plaza_id)
             ->whereHas('unitAssessmentPayment', function ($q) {
-                $q->where('status', 'UNPAID');
+                $q->whereIn('status', ['UNPAID','PARTIAL']);
             })
             ->when($role === 'member', function ($query) use ($loggedInUser) {
                 return $query->whereHas('unitAssessmentPayment', function ($q) use ($loggedInUser) {

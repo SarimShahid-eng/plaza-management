@@ -25,7 +25,7 @@ class MaintenancePostController extends Controller
     public function index(Request $request)
     {
         $loggedInUserPlazaId = request()->user()->plaza_id;
-        $query = MaintenancePost::where('plaza_id', $loggedInUserPlazaId);
+        $query = MaintenancePost::where('plaza_id', $loggedInUserPlazaId)->with('maintenanceAttachments');
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
@@ -41,6 +41,9 @@ class MaintenancePostController extends Controller
                 'category' => $item->category,
                 'cost' => $item->cost,
                 'description' => $item->description,
+                'attachments'=>$item->maintenanceAttachments->map(function($maintenance){
+                  return asset($maintenance->file_url);
+                })
             ];
         });
 

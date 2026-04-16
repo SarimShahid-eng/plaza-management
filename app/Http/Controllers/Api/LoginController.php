@@ -22,7 +22,7 @@ class LoginController extends Controller
         }
 
         $user = Auth::user();
-        if ($user->role !== 'member' || $user->role !== 'chairman') {
+        if ($user->role !== 'member' && $user->role !== 'chairman') {
             return response()->json([
                 'message' => 'You are not eligible to login ',
             ], 422);

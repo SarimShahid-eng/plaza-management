@@ -20,7 +20,9 @@ class RoleMiddleware
         }
 
         if (! in_array($request->user()->role, $roles)) {
-            abort(403, 'Unauthorized');
+            return response()->json([
+                'Unauthorized Action',
+            ], 403);
         }
 
         return $next($request);

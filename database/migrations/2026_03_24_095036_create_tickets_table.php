@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('plaza_id');
             $table->foreignId('unit_id');
             $table->string('subject');
             $table->enum('category', ["Plumbing","Electrical","Cleaning","Noise","Security","Safety","Other"]);
@@ -20,7 +22,6 @@ return new class extends Migration
             $table->enum('status', ["Pending","InProgress","Resolved"])->default('Pending');
             $table->enum('priority', ["Low","Medium","High","Urgent"])->default('Low');
             $table->foreignId('assigned_to')->nullable();
-            $table->foreignId('created_by');
             $table->timestamp('resolved_at')->nullable();
             $table->text('resolution_notes')->nullable();
             $table->timestamps();

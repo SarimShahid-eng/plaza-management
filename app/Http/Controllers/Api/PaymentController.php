@@ -12,6 +12,12 @@ use Illuminate\Http\Response;
 
 class PaymentController extends Controller
 {
+    // public function monthlyHistory()
+    // {
+    //     $monthlyHistory=
+    //     return
+
+    // }
     // public function index(Request $request): Response
     // {
     //     $payments = Payment::all();
@@ -28,24 +34,24 @@ class PaymentController extends Controller
     //     return new PaymentResource($payment);
     // }
 
-    public function show(User $user): PaymentResource
-    {
-        return new PaymentResource($payment);
-    }
+    // public function show(User $user): PaymentResource
+    // {
+    //     return new PaymentResource($payment);
+    // }
 
-    public function update(PaymentUpdateRequest $request, Payment $payment): Response
-    {
-        $payment->update($request->validated());
+    // public function update(PaymentUpdateRequest $request, Payment $payment): Response
+    // {
+    //     $payment->update($request->validated());
 
-        PaymentProcessed::dispatch();
+    //     PaymentProcessed::dispatch();
 
-        return new PaymentResource($payment);
-    }
+    //     return new PaymentResource($payment);
+    // }
 
-    public function destroy(Request $request, Payment $payment): Response
-    {
-        $payment->delete();
+    // public function destroy(Request $request, Payment $payment): Response
+    // {
+    //     $payment->delete();
 
-        return response()->noContent();
-    }
+    //     return response()->noContent();
+    // }
 }

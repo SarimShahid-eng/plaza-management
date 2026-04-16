@@ -86,7 +86,7 @@
                                 </td>
 
                                 <td class="py-3 px-4 font-medium text-gray-800 dark:text-white/90">
-                                    {{ $user->name }}
+                                    {{ $user->full_name }}
                                 </td>
 
                                 <td class="py-3 px-4 text-gray-600 dark:text-gray-400">
