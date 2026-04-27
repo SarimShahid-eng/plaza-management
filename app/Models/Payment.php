@@ -51,6 +51,10 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(MonthlyDue::class, 'monthly_due_id');
+    }
 
     public function approvedBy(): BelongsTo
     {

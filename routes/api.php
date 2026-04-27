@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\MaintenancePostController;
+use App\Http\Controllers\Api\PaymentController;
 // use App\Http\Controllers\Api\PaymentController;
 // use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\PlazaController;
@@ -16,9 +17,6 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('logout', 'logout');
 });
-// Route::get('hh', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -75,6 +73,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::middleware('role:member')->group(function () {
             // store can be hit by member only
             Route::post('store', 'store')->name('store');
+            Route::post('update', 'update')->name('update');
+        });
+        Route::middleware('role:chairman')->group(function () {
+            // store can be hit by chairman only
+            Route::post('updateStatus', 'updateStatus')->name('updateStatus');
+
         });
     });
     // Dashboard Controller
@@ -84,13 +88,8 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('data', 'dashboardData')->name('data');
         });
     });
-// its remaining
-    // Route::prefix('payments')->name('payment')->controller(PaymentController::class)->group(function () {
-    //     // Route::get('show/{user}', 'show')->name('show');          // api/plaza/1
-    //     // Route::post('update/{unit}', 'update')->name('update');      // api/plaza/1 (PUT)
-    //     // Route::delete('destroy/{unit}', 'destroy')->name('destroy'); // a
-    //     // Route::patch('assignMember/{user}/{unit}', 'assignMember')->name('assignMember'); // a
-    //     Route::get('monthlyHistory', 'monthlyHistory');
-    //     Route::get('specialAssesmentHistory', 'monthlyHistory');
-    // });
+    Route::prefix('payments')->name('payment')->controller(PaymentController::class)->group(function () {
+        Route::get('monthlyDues', 'monthlyDues')->name('monthlyDues');          // api/plaza/1
+        Route::get('unitAssesmentDues', 'unitAssesmentDues')->name('payments');
+    });
 });

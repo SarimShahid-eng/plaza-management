@@ -20,9 +20,9 @@ return new class extends Migration
             $table->enum('category', ["Plumbing","Electrical","Cleaning","Noise","Security","Safety","Other"]);
             $table->text('description');
             $table->enum('status', ["Pending","InProgress","Resolved"])->default('Pending');
-            $table->enum('priority', ["Low","Medium","High","Urgent"])->default('Low');
-            $table->foreignId('assigned_to')->nullable();
-            $table->timestamp('resolved_at')->nullable();
+            // $table->enum('priority', ["Low","Medium","High","Urgent"])->default('Low');
+            // $table->foreignId('assigned_to')->nullable();
+            // $table->timestamp('resolved_at')->nullable();
             $table->text('resolution_notes')->nullable();
             $table->timestamps();
         });

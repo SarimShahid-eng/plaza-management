@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\TicketStatusUpdateRequest;
 use App\Http\Requests\Api\TicketStoreRequest;
 use App\Http\Requests\Api\TicketUpdateRequest;
-use App\Http\Resources\Api\TicketResource;
 use App\Models\Ticket;
 use App\Models\TicketAttachment;
+use App\Models\TicketStatus;
 use App\Services\FileUploadService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class TicketController extends Controller
 {
@@ -35,6 +36,14 @@ class TicketController extends Controller
             return [
                 'id' => $item->id,
                 'subject' => $item->subject,
+                'status' => $item->status,
+                'statusHistory' => $item->statusHistory->map(function ($status) {
+                    return [
+                        'status' => $status->status,
+                        'description' => $status->description,
+                        'created_at' => $status->created_at,
+                    ];
+                }),
                 'category' => $item->category,
                 'description' => $item->description,
                 'attachments' => $item->ticketAttachments->map(function ($ticketAttachment) {
@@ -59,6 +68,11 @@ class TicketController extends Controller
         try {
             $ticket = DB::transaction(function () use ($validated, $request, $loggedInUser) {
                 $ticket = Ticket::create($validated);
+                TicketStatus::create([
+                    'ticket_id' => $ticket->id,
+                    'status' => 'Pending',
+                    'description' => $ticket->description,
+                ]);
                 $uploadedFiles = collect($request->file('attachments'))
                     ->map(fn ($file) => FileUploadService::upload($file, 'assets/ticketAttachments'))
                     ->filter()
@@ -89,22 +103,74 @@ class TicketController extends Controller
 
     }
 
-    // public function show(Request $request, Ticket $ticket): Response
-    // {
-    //     return new TicketResource($ticket);
-    // }
+    // only member can update his own ticket only pending ones
+    public function update(TicketUpdateRequest $request)
+    {
+        $validated = $request->validated();
+        $ticket = Ticket::with('ticketAttachments')
+            ->where('status', 'Pending')
+            ->findOrFail($request->update_id);
+        $loggedInUser = request()->user();
+        // 1. Find the specific record
+        $history = $ticket->statusHistory()->first();
 
-    // public function update(TicketUpdateRequest $request, Ticket $ticket): Response
-    // {
-    //     $ticket->update($request->validated());
+        // 2. Update description if provided and timestamps
+        if ($history) {
+            if ($request->filled('description')) {
+                $history->update([
+                    'description' => $validated['description'],
+                ]);
+            }
+            $history->touch();
+        }
+        if ($request->file('attachments')) {
+            // $ticket->ticketAttachments()->delete();
+            $ticket->ticketAttachments->each(function ($attachment) {
+                $path = public_path('assets/ticketAttachments/'.$attachment->file_url);
+                if (File::exists($path)) {
+                    File::delete($path);
+                    $attachment->delete();
+                }
+            });
 
-    //     return new TicketResource($ticket);
-    // }
+            $uploadedFiles = collect($request->file('attachments'))
+                ->map(fn ($file) => FileUploadService::upload($file, 'assets/ticketAttachments'))
+                ->filter()
+                ->values()
+                ->toArray();
 
-    // public function destroy(Request $request, Ticket $ticket): Response
-    // {
-    //     $ticket->delete();
+            foreach ($uploadedFiles as $filename) {
+                TicketAttachment::create([
+                    'ticket_id' => $ticket->id,
+                    'file_url' => $filename,
+                    'uploaded_by' => $loggedInUser->id,
+                ]);
+            }
+        }
 
-    //     return response()->noContent();
-    // }
+        $ticket = $ticket->update($validated);
+
+        return $ticket;
+    }
+
+    public function updateStatus(TicketStatusUpdateRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['description'] = $validated['description'] ?? null;
+        $ticket = Ticket::findOrFail($request->update_id);
+        $filtered = array_filter($validated, fn ($value) => ! is_null($value));
+        if (! empty($filtered)) {
+            $ticket->update($filtered);
+        }
+        TicketStatus::create([
+            'ticket_id' => $ticket->id,
+            'status' => $validated['status'],
+            'description' => $validated['description'] ?? null,
+        ]);
+
+        return response()->json([
+            'data' => $ticket->refresh(),
+
+        ]);
+    }
 }

@@ -48,6 +48,10 @@ class MonthlyDue extends Model
     //     return $query->where('month', $month);
     // }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'monthly_due_id');
+    }
     public function scopeForUnit($query, $unitId)
     {
         return $query->where('unit_id', $unitId);

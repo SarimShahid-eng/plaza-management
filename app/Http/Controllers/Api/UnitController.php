@@ -196,10 +196,12 @@ class UnitController extends Controller
             // if monthly means paying for current month
                 ->where('month', $currentMonthOrCustom)
                 ->latest('id')->first();
+
             $monthlyDuesAmount = (float) $unit->monthly_dues_amount;
             $latestRemainingCurrent = $latestRemaining ? $latestRemaining->remaining_amount : $monthlyDuesAmount;
+            // dd($latestRemainingCurrent);
             $remainingAmount = $latestRemainingCurrent - $validated['amount'];
-              if ($latestRemaining && (float) $latestRemaining->remaining_amount == 0) {
+            if ($latestRemaining && (float) $latestRemaining->remaining_amount == 0) {
                 return response()->json([
                     'error' => 'You have already paid for this month',
                 ], 422);
@@ -221,8 +223,6 @@ class UnitController extends Controller
 
             DB::transaction(function () use ($validated, $userId, $request, $monthlyDuesAmount, $remainingAmount, $unit, $currentMonthOrCustom) {
                 // tracks payment amount
-                // if($)
-
                 $monthlyDue = MonthlyDue::firstOrCreate(
                     [
                         'unit_id' => $validated['unit_id'],
@@ -248,7 +248,7 @@ class UnitController extends Controller
                     'status' => $remainingAmount <= 0 ? 'Paid' : ($monthlyDue->paid_amount > 0 ? 'Partial' : 'Unpaid'),
                     'payment_date' => now(),
                 ]);
-                if ($remainingAmount <= 0) {
+                // if ($remainingAmount <= 0) {
 
                     // Create Payment record for monthly only
                     Payment::create([
@@ -261,7 +261,7 @@ class UnitController extends Controller
                         'recorded_by' => $request->user()->id,
                         'payment_month' => $currentMonthOrCustom,
                     ]);
-                }
+                // }
 
                 $unit->update(['due' => max(0, $remainingAmount)]);
                 $this->paymentService->recordTransaction(
@@ -331,11 +331,12 @@ class UnitController extends Controller
                                      ->sum('remaining_amount');
 
                 $unit->update(['due' => $totalRemaining]);
-                if ($remainingAmount <= 0) {
+                // if ($remainingAmount <= 0) {
 
                     // Create Payment record for monthly only
                     UnitAssesmentPaymentHistory::create([
-                        'assessment_id' => $assessment->id,
+                        'unit_payment_id' => $assessment->id,
+                        'assessment_id' => $validated['assesment_id'],
                         'user_id' => $userId,
                         'unit_id' => $validated['unit_id'],
                         'plaza_id' => request()->user()->plaza_id,
@@ -344,7 +345,7 @@ class UnitController extends Controller
                         'recorded_by' => request()->user()->id,
                         'payment_month' => now()->format('Y-m'),
                     ]);
-                }
+                // }
 
                 $this->paymentService->recordTransaction(
                     plazaId: request()->user()->plaza_id,
@@ -390,7 +391,7 @@ class UnitController extends Controller
                 'due' => $this->getMonthlyDuesByPlazaUnit(),
             ]);
             $user->update([
-                'unit_id'=>$validated['unit_id']
+                'unit_id' => $validated['unit_id'],
             ]);
             $unit->histories()->create([
                 'plaza_id' => $request->user()->plaza_id,

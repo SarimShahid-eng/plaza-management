@@ -52,6 +52,11 @@ class Ticket extends Model
         return $this->belongsTo(Unit::class);
     }
 
+    public function statusHistory(): HasMany
+    {
+        return $this->hasMany(TicketStatus::class);
+    }
+
     public function ticketAttachments(): HasMany
     {
         return $this->hasMany(TicketAttachment::class);

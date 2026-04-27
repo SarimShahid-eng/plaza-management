@@ -67,27 +67,9 @@ class UserController extends Controller
             }
         }
 
-        // Only hash password if provided
-        // if (isset($validated['password'])) {
-        //     $validated['password'] = Hash::make($validated['password']);
-        // } else {
-        //     unset($validated['password']);
-        // }
-
         $user->update($validated);
 
         return new UserResource($user);
     }
 
-    // public function show(Request $request, User $user): Response
-    // {
-    //     return new UserResource($user);
-    // }
-
-    // public function destroy(Request $request, User $user): Response
-    // {
-    //     $user->delete();
-
-    //     return response()->noContent();
-    // }
 }

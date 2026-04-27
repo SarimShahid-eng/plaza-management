@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_attachments', function (Blueprint $table) {
+        Schema::create('ticket_statuses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id');
-            $table->string('file_url');
-            $table->foreignId('uploaded_by')->constrained('users');
+            $table->enum('status', ['Pending', 'InProgress', 'Resolved'])->default('Pending');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_attachments');
+        Schema::dropIfExists('ticket_statuses');
     }
 };

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('unit_assesment_payment_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('unit_payment_id')->constrained('unit_assesment_payments');
             $table->foreignId('assessment_id');
             $table->foreignId('plaza_id');
             $table->foreignId('unit_id');

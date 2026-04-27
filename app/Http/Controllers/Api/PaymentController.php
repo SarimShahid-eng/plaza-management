@@ -2,56 +2,62 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\PaymentProcessed;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\PaymentUpdateRequest;
-use App\Http\Resources\Api\PaymentResource;
 use App\Models\Payment;
+use App\Models\UnitAssesmentPaymentHistory;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class PaymentController extends Controller
 {
-    // public function monthlyHistory()
-    // {
-    //     $monthlyHistory=
-    //     return
+    public function monthlyDues(Request $request)
+    {
+        $user = $request->user();
+        //  now()->format('Y-m')
+        // 2016-04
+        $query = Payment::when($request->payment_month,
+            fn ($q) => $q->where('payment_month', $request->payment_month));
+        if ($user->role === 'chairman') {
+            $query->where('plaza_id', $user->plaza_id);
+        } elseif ($user->role === 'member') {
+            $query->where('unit_id', $user->unit_id);
+        }
+        $perPage = $request->input('perPage', 10);
+        $payemnt = $query->paginate($perPage);
 
-    // }
-    // public function index(Request $request): Response
-    // {
-    //     $payments = Payment::all();
+        return response()->json([
+            'data' => $payemnt->through(function ($item) {
+                return [
+                    // 'id' => $item->id,
+                    'amount' => $item->amount,
+                    'status' => $item->status,
+                    'unit' => $item->unit->unit_number,
+                ];
+            }),
+        ]);
+    }
 
-    //     return new PaymentCollection($payments);
-    // }
+    public function unitAssesmentDues(Request $request)
+    {
+        $user = $request->user();
+        $query = UnitAssesmentPaymentHistory::when($request->payment_month,
+            fn ($q) => $q->where('payment_month', $request->payment_month));
+        if ($user->role === 'chairman') {
+            $query->where('plaza_id', $user->plaza_id);
+        } elseif ($user->role === 'member') {
+            $query->where('unit_id', $user->unit_id);
+        }
+        $perPage = $request->input('perPage', 10);
+        $payemnt = $query->paginate($perPage);
 
-    // public function store(PaymentStoreRequest $request): Response
-    // {
-    //     $payment = Payment::create($request->validated());
-
-    //     Notification::send($chairman, new PaymentPendingNotification());
-
-    //     return new PaymentResource($payment);
-    // }
-
-    // public function show(User $user): PaymentResource
-    // {
-    //     return new PaymentResource($payment);
-    // }
-
-    // public function update(PaymentUpdateRequest $request, Payment $payment): Response
-    // {
-    //     $payment->update($request->validated());
-
-    //     PaymentProcessed::dispatch();
-
-    //     return new PaymentResource($payment);
-    // }
-
-    // public function destroy(Request $request, Payment $payment): Response
-    // {
-    //     $payment->delete();
-
-    //     return response()->noContent();
-    // }
+        return response()->json([
+            'data' => $payemnt->through(function ($item) {
+                return [
+                    // 'id' => $item->id,
+                    'amount' => $item->amount,
+                    'status' => $item->status,
+                    'unit' => $item->unit->unit_number,
+                ];
+            }),
+        ]);
+    }
 }

@@ -54,17 +54,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Plaza::class);
     }
+
     public function plazaSetting(): BelongsTo
     {
-        return $this->belongsTo(PlazaSetting::class,'plaza_id','plaza_id');
+        return $this->belongsTo(PlazaSetting::class, 'plaza_id', 'plaza_id');
     }
 
     public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
     }
+
     public function occupiedUnits(): BelongsTo
     {
-        return $this->belongsTo(Unit::class)->where('status','Occupied');
+        return $this->belongsTo(Unit::class)->where('status', 'Occupied');
     }
 }

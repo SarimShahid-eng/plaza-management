@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TicketUpdateRequest extends FormRequest
+class TicketStatusUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +21,8 @@ class TicketUpdateRequest extends FormRequest
     {
         return [
             'update_id' => ['required', 'exists:tickets,id'],
-            'subject' => ['required', 'string'],
-            'category' => ['required', 'in:Plumbing,Electrical,Cleaning,Noise,Security,Safety,Other'],
-            'description' => ['required', 'string'],
-            'attachments' => ['required', 'array'],
-            'attachments.*' => ['required', 'file'],
+            'status'=>['required','in:Resolved,InProgress'],
+            'description'=>['nullable','string']
         ];
 
     }
